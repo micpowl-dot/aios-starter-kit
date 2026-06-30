@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Created with AI — Dashboard</title>
+<style>
+  :root { --bg:#111; --card:#1b1b1b; --ink:#f5f3ee; --muted:#8a857e; --accent:#c8910a;
+          --ok:#1f7a4d; --wip:#0062ff; --todo:#8a857e; }
+  * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink);
+      font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; padding:40px; }
+  h1 { font-size:30px; margin:0 0 4px; } .sub { color:var(--muted); margin:0 0 24px; }
+  .stats { display:flex; gap:32px; margin:0 0 28px; }
+  .stat b { font-size:30px; } .stat span { display:block; color:var(--muted); font-size:13px; }
+  table { width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; }
+  th,td { text-align:left; padding:12px 16px; border-bottom:1px solid #2a2a2a; font-size:14px; }
+  th { color:var(--muted); font-weight:600; font-size:12px; letter-spacing:1px; text-transform:uppercase; }
+  .pill { padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+  .done{background:rgba(31,122,77,.2);color:#76d662} .wip{background:rgba(0,98,255,.2);color:#67b0ff} .todo{background:#2a2a2a;color:var(--muted)}
+  .tool { color:var(--accent); font-weight:600; }
+  footer { color:var(--muted); font-size:12px; margin-top:24px; }
+</style>
+</head>
+<body>
+  <h1>Created with AI</h1>
+  <p class="sub">Every deliverable, the AI tool that touched it, and where it stands. The proof, live.</p>
+  <div class="stats">
+    <div class="stat"><b id="n-total">0</b><span>deliverables</span></div>
+    <div class="stat"><b id="n-done">0</b><span>shipped</span></div>
+    <div class="stat"><b id="n-tools">0</b><span>AI tools used</span></div>
+  </div>
+  <table><thead><tr><th>Deliverable</th><th>AI tool · role</th><th>Output</th><th>Status</th></tr></thead>
+  <tbody id="rows"></tbody></table>
+  <footer>Edit the <code>DATA</code> array below, or set <code>FEED_URL</code> to a JSON endpoint your webhook writes. No build step.</footer>
+
+<script>
+// ---- Option A: edit this array directly ----
+const DATA = [
+  { item:"Animated logo",      tool:"Firefly · ideation",       output:"4 variants",        status:"done" },
+  { item:"24 speaker posters",  tool:"Claude Code · code-gen",   output:"all tracks/formats", status:"done" },
+  { item:"Headshot portraits",  tool:"Gemini · image",           output:"105 illustrated",    status:"done" },
+  { item:"PPT template",        tool:"Claude Code · build",      output:"brand-matched deck", status:"wip"  },
+  { item:"Launch song",         tool:"ElevenLabs · audio",       output:"30s bed",            status:"todo" },
+];
+// ---- Option B: live feed your webhook appends to ----
+const FEED_URL = ""; // e.g. "./data.json"
+
+function render(rows){
+  const pill = s => ({done:"done",wip:"wip",todo:"todo"}[s]||"todo");
+  const label = s => ({done:"Shipped",wip:"In progress",todo:"Planned"}[s]||s);
+  document.getElementById("rows").innerHTML = rows.map(r=>`<tr>
+    <td>${r.item}</td><td class="tool">${r.tool}</td><td>${r.output}</td>
+    <td><span class="pill ${pill(r.status)}">${label(r.status)}</span></td></tr>`).join("");
+  document.getElementById("n-total").textContent = rows.length;
+  document.getElementById("n-done").textContent = rows.filter(r=>r.status==="done").length;
+  document.getElementById("n-tools").textContent = new Set(rows.map(r=>r.tool.split(" · ")[0])).size;
+}
+if (FEED_URL) { fetch(FEED_URL).then(r=>r.json()).then(render).catch(()=>render(DATA)); }
+else { render(DATA); }
+</script>
+</body>
+</html>
