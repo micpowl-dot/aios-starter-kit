@@ -15,9 +15,30 @@ Two flavors, both useful:
 browser). Edit the data array at the top, or point it at a JSON feed your webhook writes. Host it
 anywhere static (or just open the file locally).
 
-## Wire it to the Cadence loop
-Have your webhook (see `../webhooks/`) append a row whenever an event lands, so the dashboard updates
-itself. Manual to start, automatic once it works.
+## The foundation vs the connection
+This is the important split, and it is deliberate. The kit ships the **foundation** and leaves the
+**connection** to you:
+
+- **Foundation (included):** the dashboard itself. `dashboard-template.html` renders whatever data it
+  is given and needs nothing else. The data's shape is defined in `dashboard-data.schema.json`, with a
+  filled sample in `dashboard-data.example.json`. Open the template as-is and it works.
+- **Connection (you add it):** whatever keeps that data fresh. The dashboard does not care where the
+  data comes from, so this is the part that is specific to your tools and lives with you, a webhook
+  that appends a row, a small sync script, an export, or just editing the file by hand.
+
+Why ship it this way: the foundation is the same for everyone, but the connection depends on your
+stack and your credentials. So you get a working dashboard on day one and wire it to your world when
+you are ready. Nothing in the kit assumes your tools.
+
+**Point the template at the data file:** copy `dashboard-data.example.json` to `dashboard-data.json`,
+make it yours, then set `FEED_URL = "./dashboard-data.json"` near the top of `dashboard-template.html`.
+Leave `FEED_URL` empty to just edit the inline `DATA` array instead.
+
+## Wire it to the Cadence loop (the connection)
+When you are ready to automate, have your webhook (see `../webhooks/`) write or append to
+`dashboard-data.json` whenever an event lands, so the dashboard updates itself. Keep it matching
+`dashboard-data.schema.json` and the template keeps rendering, no changes needed. Manual to start,
+automatic once it works.
 
 ## Worked example — AI Day (The Weather Company)
 Two dashboards ran:

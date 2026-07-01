@@ -1,0 +1,8 @@
+[
+  { "item": "Animated logo",        "tool": "Firefly · ideation",     "output": "4 variants",          "status": "done" },
+  { "item": "24 speaker posters",   "tool": "Claude Code · code-gen", "output": "all tracks + formats", "status": "done" },
+  { "item": "Headshot portraits",   "tool": "Gemini · image",         "output": "105 illustrated",      "status": "done" },
+  { "item": "Live gallery wall",    "tool": "Claude Code · build",    "output": "self-updating wall",   "status": "done" },
+  { "item": "PPT template",         "tool": "Claude Code · build",    "output": "brand-matched deck",   "status": "wip" },
+  { "item": "Launch song",          "tool": "ElevenLabs · audio",     "output": "30s bed",              "status": "todo" }
+]
