@@ -5,7 +5,7 @@ prompt, and you (or your team) get an always-on operating brain: a single source
 AI reads, the connections to reach your real tools, and automations that deliver value with the
 laptop closed.
 
-This kit **builds on (https://github.com/nateherkai/AIS-OS)** (MIT) and
+This kit **builds on an existing AI-OS foundation** (MIT) and
 extends it with three things a real working system needs:
 
 1. **A source-of-truth vault** committed into the repo (an Obsidian-style knowledge base your AI reads and writes).
