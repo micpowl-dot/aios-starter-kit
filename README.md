@@ -83,4 +83,4 @@ well-run business, not a hoarder's basement.
 
 ## License
 
-MIT. Frameworks © Nate Herk; see `LICENSE` and the attribution above.
+MIT. Frameworks ©; see `LICENSE` and the attribution above.
