@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/micpowl-dot/aios-starter-kit/integrations/dashboard/dashboard-data.schema.json",
+  "title": "Show-your-work dashboard feed",
+  "description": "The data the dashboard renders. This file IS the foundation: dashboard-template.html reads it and needs nothing else. Keeping it fresh is the CONNECTION you add later (a webhook, a sync script, or hand-editing). Point the template at it by setting FEED_URL to this file's path.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "description": "One deliverable: what it is, the AI tool and role that touched it, the output, and where it stands.",
+    "additionalProperties": false,
+    "required": ["item", "tool", "output", "status"],
+    "properties": {
+      "item": {
+        "type": "string",
+        "description": "The deliverable's name.",
+        "examples": ["Animated logo", "24 speaker posters"]
+      },
+      "tool": {
+        "type": "string",
+        "description": "The AI tool and its role, written as 'Tool · role'. The text before ' · ' is counted as the tool for the 'AI tools used' stat.",
+        "pattern": ".+ · .+",
+        "examples": ["Claude Code · code-gen", "Gemini · image"]
+      },
+      "output": {
+        "type": "string",
+        "description": "What came out of it, in a few words.",
+        "examples": ["4 variants", "105 illustrated"]
+      },
+      "status": {
+        "type": "string",
+        "description": "Where it stands. 'done' renders as Shipped, 'wip' as In progress, 'todo' as Planned.",
+        "enum": ["done", "wip", "todo"]
+      }
+    }
+  }
+}
